@@ -113,7 +113,7 @@ function App() {
                         {
                             from: 91,
                             to: 130,
-                            color: '#b71c1c',
+                            color: '#5f0937',
                             name: '91~130',
                         },
                         ]
@@ -219,15 +219,8 @@ function App() {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ m: 3 }}
-                        >
-                        </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: 40}}>
+                        <img src="/onyasai.png" height="60" width="auto" />
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: 50,marginLeft:5}}>
                             温野菜の来客数の可視化
                         </Typography>
                     </Toolbar>
@@ -245,7 +238,7 @@ function App() {
                       value={selectedMonth}
                       label="month"
                       onChange={handleChangeMonth}
-                      sx={{marginRight:"12px",marginLeft:"12px"}}
+                      sx={{marginRight:"12px",marginLeft:"12px",marginTop:"12px"}}
                 >
                       {monthLabels.map((item) => (
                           <MenuItem key={item} value={item}>{item}月</MenuItem>
@@ -259,7 +252,7 @@ function App() {
                     value={selectedWeeks}
                     label="weeks"
                     onChange={handleChangeWeeks}
-                     sx={{marginRight:"12px",marginLeft:"12px"}}
+                     sx={{marginRight:"12px",marginLeft:"12px",marginTop:"12px"}}
                 >
                     {weeksLabels.map((item) => (
                         <MenuItem key={item} value={item}>{item}週目</MenuItem>
