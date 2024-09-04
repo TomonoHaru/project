@@ -1,10 +1,46 @@
 import ReactApexChart from "react-apexcharts";
-import onya from '../onya.json';
-import React, { useState, useEffect } from "react";
-import * as d3 from "d3";
-
+import { useState, useEffect } from "react";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function App() {
+
+    const [onya, setOnya] = useState(null);
+    const monthlabels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    const [selectedMonth, setSelectedMonth] = useState(monthlabels[0]);
+
+    const weekslabels = ["1", "2", "3", "4", "5"];
+    const [selectedWeeks, setSelectedWeeks] = useState(weekslabels[0]);
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            const res = await fetch("/onya.json");
+            const data = await res.json();
+            setOnya(data);
+        }
+        fetchData();
+    }, [])
+
+    if (onya == null) { return <div>loading...</div> }
+
+    const handleChangeMonth = (event) => {
+        setSelectedMonth(event.target.value);
+    };
+
+    const handleChangeWeeks = (event) => {
+        setSelectedWeeks(event.target.value);
+    };
+
 
     const
         options = {
@@ -41,12 +77,7 @@ function App() {
             }
         }
 
-    const [lineOption] = useState({
-        chart: {
-            zoom: {
-                enabled: false
-            },
-        },
+    const lineOption = {
         dataLabels: {
             enabled: false
         },
@@ -91,13 +122,9 @@ function App() {
         },
         colors: ['#E91E63', '#3EC400', '#FE9200', '#73D8FF', '#795548', '#FFEB3B', '#0062B1']
 
-    });
+    };
 
-    const yearlabels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-    const [SelectedValue, SetSelectedValue] = useState(yearlabels[0]);
 
-    const weekslabels = ["1", "2", "3", "4", "5"];
-    const [Selectedweeks, SetSelectedweeks] = useState(weekslabels[0]);
 
     const series = Array.from(new Set(onya.Data.map(({ "day of week": DOW }) => (DOW))))
         .map((DOW) => {
@@ -105,7 +132,7 @@ function App() {
             return {
                 name: DOW,
                 data: onya.Data
-                    .filter((item) => item.month == SelectedValue)
+                    .filter((item) => item.month == selectedMonth)
                     .filter((item) => item["day of week"] === DOW)
                     .map(({ year: x, visitor: y }) => ({ x, y }))
             };
@@ -118,8 +145,8 @@ function App() {
             return {
                 name: DOW,
                 data: onya.Data
-                    .filter((item) => item.month == SelectedValue)
-                    .filter((item) => item.weeks == Selectedweeks)
+                    .filter((item) => item.month == selectedMonth)
+                    .filter((item) => item.weeks == selectedWeeks)
                     .filter((item) => item["day of week"] === DOW)
                     .map(({ visitor }) => (visitor))
             };
@@ -132,13 +159,56 @@ function App() {
 
     return (
         <div>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ m: 3 }}
+                        >
+                        </IconButton>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: 40 }}>
+                            温野菜の来客数の可視化
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <div>
+                <label>月の選択</label>
 
-            <select value={SelectedValue} onChange={e => SetSelectedValue(e.target.value)} >
-                {yearlabels.map((item) => (
-                    <option key={item} value={item} >{item}</option>
-                ))}
-            </select>
-            <label> 月 </label>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedMonth}
+                    label="month"
+                    onChange={handleChangeMonth}
+                    sx={{ ml: 5 }}
+                >
+                    {monthlabels.map((item) => (
+                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                    ))}
+                </Select>
+            </div>
+
+
+            <div>
+                <label>曜日の選択</label>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedWeeks}
+                    label="weeks"
+                    onChange={handleChangeWeeks}
+                    sx={{ ml: 3 }}
+                >
+                    {weekslabels.map((item) => (
+                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                    ))}
+                </Select>
+            </div>
 
             <div id="chart">
                 <ReactApexChart
@@ -148,12 +218,6 @@ function App() {
                     height={350}
                     width={1000} />
             </div>
-            <select value={Selectedweeks} onChange={e => SetSelectedweeks(e.target.value)}>
-                {weekslabels.map((item) => (
-                    <option key={item} value={item}>{item}</option>
-                ))}
-            </select>
-            <label> 週目 </label>
 
             <div id="chart">
                 <ReactApexChart
