@@ -1,19 +1,13 @@
 import ReactApexChart from "react-apexcharts";
 import { useState, useEffect } from "react";
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import * as d3 from "d3";
-import { interpolateCividis } from "d3-scale-chromatic";
-import { display, spacing } from "@mui/system";
+
+
 
 function App() {
 
@@ -44,6 +38,32 @@ function App() {
         setSelectedWeeks(event.target.value);
     };
 
+    // function incrementColor(rgb,increment){
+    //     let [r,g,b] = rgb.match(/\d+/g).map(Number);
+
+    //     r = (r + increment) % 256;
+    //     g = (g + increment) % 256;
+    //     b = (b + increment) % 256;
+
+    //     return 'rbg(${r},${g},$[b])';
+
+    // }
+
+    
+    // function colorScale(startColor,steps,increment){
+    //     const colors = [];
+    //     let color = startColor;
+
+    //     for(let i = 0;i < steps;i++){
+    //         colors.push(color);
+    //         color = incrementColor(color,increment);
+    //     }
+
+    //     return colors;
+
+    // }
+
+    // const baseColor = "rgb(255,0,0)";
     
 
     const options = {
@@ -112,9 +132,9 @@ function App() {
                         },
                         {
                             from: 91,
-                            to: 130,
+                            to: 150,
                             color: '#5f0937',
-                            name: '91~130',
+                            name: '91~150',
                         },
                         ]
                     }
@@ -219,7 +239,7 @@ function App() {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
-                        <img src="/onyasai.png" height="60" width="auto" />
+                        <img src="/onyasai.jpg" height="60" width="auto" />
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: 50,marginLeft:5}}>
                             温野菜の来客数の可視化
                         </Typography>
