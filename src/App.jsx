@@ -164,7 +164,7 @@ function App() {
         },
         yaxis: {
         title: {
-            text: '来客数',  
+            text: '来客数(人)',  
             style: {
                 fontSize: '14px',  
                 fontWeight: '300',
@@ -241,7 +241,7 @@ function App() {
                     <Toolbar>
                         <img src="/onyasai.jpg" height="60" width="auto" />
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: 50,marginLeft:5}}>
-                            温野菜の来客数の可視化
+                            温野菜(本八幡店)の来客数の可視化
                         </Typography>
                     </Toolbar>
                 </AppBar>
